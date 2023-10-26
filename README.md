@@ -10,4 +10,7 @@
 
 ## Database Models
 
-![]()
+![db-diagram](./assets/readme/db%20diagram%20recipe%20app.png)
+
+* Consists of two fundamental models: Users and Posts
+* Both are interlinked via the user_id Primary Key
