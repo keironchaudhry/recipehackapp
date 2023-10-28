@@ -5,9 +5,9 @@ const bcrypt = require("bcrypt");
 // register
 router.post("/register", async (req, res) => {
   try {
-    // user data
+    // User data
     const { username, email } = req.body;
-    // generates a hashed password
+    // Generates a hashed password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     // SQL query + generated parametres
@@ -25,9 +25,29 @@ router.post("/register", async (req, res) => {
 // login
 router.post("/login", async (req, res) => {
   try {
-    // here
+    // User data
+    const { email, password } = req.body;
+    // SQL query for result
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    // Authenticate result
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    // Return row
+    const user = result.rows[0];
+    // Compare password + authenticate
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({ error: "Incorrect password." });
+    }
+    // Delete password for security
+    delete user.password;
+    res.status(200).json(user);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
