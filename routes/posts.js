@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const pool = require("../db/index.js");
 
-// post creation
+// Post creation
 router.post("/create", async (req, res) => {
   try {
-    // user input
+    // User input
     const { title, content, image } = req.body;
     // SQL query + generated parametres
     const post = await pool.query(
@@ -18,10 +18,23 @@ router.post("/create", async (req, res) => {
   }
 });
 
-// view post
+// View post
+router.get("/:id", async (req, res) => {
+  try {
+    // Post ID from URL
+    const postId = req.params.id; 
+    // Filters post via post_id
+    const post = await pool.query("SELECT * FROM posts WHERE post_id = $1", [
+      postId,
+    ]);
+    res.status(200).json(post.rows[0]); 
+  } catch (err) {
+    res.status(500).json({ error: "No posts here." });
+  }
+});
 
-// modify post
+// Modify post
 
-// delete post
+// Delete post
 
 module.exports = router;
