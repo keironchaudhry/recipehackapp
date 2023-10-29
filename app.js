@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
 const authRoute = require("./routes/auth");
+const postRoute = require("./routes/posts");
 
 // Middleware to go here
 app.use(express.json());
@@ -11,5 +12,6 @@ app.use(helmet());
 app.use(morgan("common"));
 
 app.use("/api/auth", authRoute);
+app.use("/api/posts", postRoute);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
