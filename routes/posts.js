@@ -33,7 +33,37 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Modify post
+// Update post
+router.put("/:id", async (req, res) => {
+  try {
+    // Post ID from URL
+    const postId = req.params.id;
+
+    // SQL query to fetch the existing post
+    const postQuery = await pool.query(
+      "SELECT user_id FROM posts WHERE post_id = $1",
+      [postId]
+    );
+
+    // User data
+    const { title, content, image } = req.body;
+
+    if (postQuery.rows.length === 0) {
+      // Post not found
+      res.status(404).json({ error: "Post not found." });
+    } else if (postQuery.rows[0].user_id === req.body.user_id) {
+      const updatedPost = await pool.query(
+        "UPDATE posts SET title = $1, content = $2, image = $3 WHERE post_id = $4",
+        [title, content, image, postId]
+      );
+      res.status(200).json({ message: "Post updated." });
+    } else {
+      res.status(403).json({ error: "You can only update your own posts." });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Delete post
 router.delete("/:id", async (req, res) => {
