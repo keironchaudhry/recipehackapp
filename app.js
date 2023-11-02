@@ -15,7 +15,9 @@ app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
 
 app.get("/", (req, res) => {
-    res.send("API Endpoints for Recipe Auth + Posts.");
-  });
+  res.send("API Endpoints for Recipe Auth + Posts.");
+});
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(process.env.PORT || 8000, () =>
+  console.log(`Server running on port ${PORT}`)
+);
