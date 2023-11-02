@@ -1,4 +1,4 @@
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || config.httpPort;
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
