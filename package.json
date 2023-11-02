@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "deploy": "node app.js",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eject": "react-scripts eject"
   },
@@ -26,5 +26,9 @@
   },
   "engines": {
     "node": "20.9.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   }
 }
