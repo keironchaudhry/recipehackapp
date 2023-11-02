@@ -18,6 +18,4 @@ app.get("/", (req, res) => {
   res.send("API Endpoints for Recipe Auth + Posts.");
 });
 
-app.listen(process.env.PORT || 8000, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+app.listen(process.env.PORT || 8000);
